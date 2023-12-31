@@ -31,12 +31,20 @@ const url = require('url');
 ///////// Server ////////
 ////////////////////////////////
 
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
+const productData = JSON.parse(data)
+
 const server = http.createServer((req, res) => {
   const pathname = req.url
   if(pathname === '/' || pathname === '/overview') {
     res.end("This is the overview")
   } else if(pathname === '/') {
     res.end('This is the product')
+  }else if (pathname === '/api') {
+      res.writeHead(200, {
+        'Content-type': 'application/json'
+      })
+      res.end(data)
   } else {
     // Have to set headers before sending back the response
     res.writeHead(404, { 
